@@ -12,7 +12,7 @@ The service is using Apache Qpid Dispatch and Vert.x AMQP Bridge for the AMQP AP
 
 ## API
 
-To send a request, send the message to the specific AMQP address. If reply-to address is specified, the service will send response to it. *This version of the service is using a REST style API.* The HTTP-like method which should be triggered is specified in the application property called `method`. All requests are sent to the same address `/scores`.
+To send a request, send the message to the specific AMQP address. If reply-to address is specified, the service will send response to it. **This version of the service is using a REST style API.** The HTTP-like method which should be triggered is specified in the application property called `method`. All requests are sent to the same address `/scores`.
 
 ### Add new game
 
