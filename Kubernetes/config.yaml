@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: livescore-demo-vertx-amqp-bridge-rest-style-config
+  labels:
+    app: livescore-demo-vertx-amqp-bridge-rest-style
+    project: live-score-demo
+data:
+  dispatch.config: |
+                  router {
+                      mode: standalone
+                      id: LiveScoreService
+                      workerThreads: 4
+                  }
+
+                  log {
+                       module: DEFAULT
+                       enable: trace+
+                       timestamp: true
+                  }
+
+                  listener {
+                       role: normal
+                       host: 0.0.0.0
+                       port: amqp
+                       saslMechanisms: ANONYMOUS
+                  }
+
+                  address {
+                       prefix: /liveScores
+                       distribution: multicast
+                  }
+
+                  address {
+                       prefix: /scores
+                       distribution: balanced
+                  }
+  vertx.log.level: "TRACE"
