@@ -162,27 +162,27 @@ You can use the qpid-send and qpid-receive utilities from Apache Qpid project to
 
 * Create a new game
 ```bash
-qpid-send -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "'/addGame'" --content-string '{"homeTeam": "Aston Villa", "awayTeam": "Preston North End", "startTime": "14th January 2017, 17:30"}'
+qpid-send -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "'/scores'" --property method=POST --content-string '{"homeTeam": "Aston Villa", "awayTeam": "Preston North End", "startTime": "Saturday 14th January 2017, 17:30"}'
 
 ```
 
 * Update the score
 ```bash
-qpid-send -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "'/setScore'" --content-string '{"homeTeam": "Aston Villa", "awayTeam": "Preston North End", "homeTeamGoals": 1, "awayTeamGoals": 0, "gameTime": "13"}'
-qpid-send -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "'/setScore'" --content-string '{"homeTeam": "Aston Villa", "awayTeam": "Preston North End", "homeTeamGoals": 2, "awayTeamGoals": 0, "gameTime": "35"}'
+qpid-send -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "'/scores'" --property method=PUT --content-string '{"homeTeam": "Aston Villa", "awayTeam": "Preston North End", "homeTeamGoals": 1, "awayTeamGoals": 0, "gameTime": "10"}'
+qpid-send -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "'/scores'" --property method=PUT --content-string '{"homeTeam": "Aston Villa", "awayTeam": "Preston North End", "homeTeamGoals": 2, "awayTeamGoals": 0, "gameTime": "35"}'
 
 ```
 
 * Get scores
 ```bash
 qpid-receive -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "myReplyToAddress" -m 1 -f --print-headers yes &
-qpid-send -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "'/getScores'" --content-string '{}' --reply-to "myReplyToAddress"
+qpid-send -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "'/scores'" --property method=GET --content-string '' --reply-to "myReplyToAddress"
 
 ```
 
 * Subscribe to live updates
 ```bash
-qpid-receive -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "'/liveUpdates'" -f
+qpid-receive -b 127.0.0.1:5672 --connection-options "{protocol: amqp1.0}" -a "'/liveScores'" -f
 
 ```
 
